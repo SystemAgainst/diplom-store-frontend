@@ -20,8 +20,6 @@ export const LoginForm = () => {
   });
   const [error, setError] = useState<string>("");
 
-  // const { login  } = authApi();
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
