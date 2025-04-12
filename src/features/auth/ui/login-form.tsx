@@ -1,27 +1,32 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import styles from "./style.module.css";
-import {Link} from "react-router-dom";
-import {routes} from "@/shared/config/routes.ts";
-// import { useAuth } from "../model/auth";
+import { Link } from "react-router-dom";
+import { routes } from "@/shared/config/routes.ts";
+import { authApi } from "../model/api";
+import { useUserStore } from "@/features/user/model/user-store";
+
 
 interface LoginFormData {
-  email: string;
+  login: string;
   password: string;
 }
 
 export const LoginForm = () => {
+  const setUser = useUserStore((s) => s.setUser);
+
   const [formData, setFormData] = useState<LoginFormData>({
-    email: "",
+    login: "",
     password: "",
   });
   const [error, setError] = useState<string>("");
 
-  // const { login } = useAuth();
+  // const { login  } = authApi();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      // await login(formData);
+      const user = await authApi.login(formData);
+      setUser(user);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     }
@@ -30,14 +35,14 @@ export const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
       <div>
-        <label htmlFor="email" className={styles.label}>
-          Email
+        <label htmlFor="login" className={styles.label}>
+          Login
         </label>
         <input
-          type="email"
-          id="email"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          type="text"
+          id="login"
+          value={formData.login}
+          onChange={(e) => setFormData({ ...formData, login: e.target.value })}
           className={styles.inputGroup}
           required
         />
