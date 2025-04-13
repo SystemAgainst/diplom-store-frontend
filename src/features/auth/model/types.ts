@@ -18,3 +18,11 @@ export const ROLES = {
 } as const;
 
 export type Role = typeof ROLES[keyof typeof ROLES];
+
+export interface IUserProduct {
+    id: number;
+    title: string;
+    quantity: number;
+    price: number;          // Себестоимость
+    sellingPrice: number;   // Цена продажи
+}
