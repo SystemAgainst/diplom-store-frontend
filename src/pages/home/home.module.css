@@ -70,16 +70,3 @@
     overflow-y: auto;
     background-color: #ffffff;
 }
-
-.formContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    background-color: #eaebec;
-    padding: 60px 80px;
-    width: 400px;
-    margin: 15rem auto;
-    border-radius: 16px;
-}

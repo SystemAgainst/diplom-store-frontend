@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { routes } from "@/shared/config/routes.ts";
 import { authApi } from "../model/api";
 import { useUserStore } from "@/features/user/model/user-store";
+import { UiButton } from "@/shared/ui";
 
 
 interface LoginFormData {
@@ -64,9 +65,7 @@ export const LoginForm = () => {
         />
       </div>
       {error && <div className={styles.error}>{error}</div>}
-      <button type="submit" className={styles.button}>
-        Войти
-      </button>
+      <UiButton type="submit">Войти</UiButton>
 
       <span>У вас нет аккаунта? <Link to={routes.register}>Зарегистрируйтесь</Link> в системе</span>
     </form>
