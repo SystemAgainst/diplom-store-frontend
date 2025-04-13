@@ -3,7 +3,7 @@ import { App } from "@/app/app";
 import { FormLayout } from "@/widgets/form-layout/form-layout";
 import { LoginForm } from "@/features/auth/ui/login-form.tsx";
 import { RegisterForm } from "@/features/auth/ui/register-form.tsx";
-import { HomePage } from "@/pages";
+import { HomePage, MyProductsPage, OrderDetailPage, OrdersPage, ProfilePage } from "@/pages";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +25,11 @@ export const router = createBrowserRouter([
                 path: "home",
                 element: <HomePage />,
             },
+            { path: "profile", element: <ProfilePage /> },
+            { path: "products/my", element: <MyProductsPage /> },
+            { path: "orders", element: <OrdersPage /> },
+            { path: "orders/:id", element: <OrderDetailPage /> },
+
         ],
     },
 ]);

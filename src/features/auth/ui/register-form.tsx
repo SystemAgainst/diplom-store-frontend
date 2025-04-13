@@ -134,10 +134,9 @@ export const RegisterForm = () => {
           Зарегистрироваться
         </button>
 
-        <span>
-      У вас уже есть аккаунт?{" "}
+        <span>У вас уже есть аккаунт?{" "}
           <Link to={routes.login}>Войдите</Link> в систему
-    </span>
+        </span>
       </form>
   );
 };
