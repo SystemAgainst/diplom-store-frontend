@@ -27,9 +27,7 @@ export const LoginForm = () => {
     try {
       const user = await authApi.login(formData);
       setUser(user);
-      console.log('124')
       navigate("/home");
-      console.log('adf')
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     }

@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import styles from "./home.module.css";
+import { Header } from "@/widgets";
 
 export const HomePage = ({ children }: { children: ReactNode }) => {
     return (
@@ -16,9 +17,7 @@ export const HomePage = ({ children }: { children: ReactNode }) => {
             </aside>
 
             <div className={styles.main}>
-                <header className={styles.header}>
-                    <h1>Личный кабинет</h1>
-                </header>
+                <Header />
 
                 <main className={styles.content}>{children}</main>
             </div>
