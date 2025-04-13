@@ -1,6 +1,6 @@
 import { useState, FormEvent } from "react";
 import styles from "./style.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { routes } from "@/shared/config/routes.ts";
 import { authApi } from "../model/api";
 import { useUserStore } from "@/features/user/model/user-store";
@@ -12,6 +12,8 @@ interface LoginFormData {
 }
 
 export const LoginForm = () => {
+  const navigate = useNavigate();
+
   const setUser = useUserStore((s) => s.setUser);
 
   const [formData, setFormData] = useState<LoginFormData>({
@@ -25,6 +27,9 @@ export const LoginForm = () => {
     try {
       const user = await authApi.login(formData);
       setUser(user);
+      console.log('124')
+      navigate("/home");
+      console.log('adf')
     } catch (err) {
       setError(err instanceof Error ? err.message : "Login failed");
     }

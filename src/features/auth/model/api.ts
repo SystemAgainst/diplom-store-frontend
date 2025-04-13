@@ -37,7 +37,7 @@ export const authApi = {
             role: ROLES.SUPPLIER,
         };
 
-        localStorage.setItem("userId", user.id);
+        localStorage.setItem("login", user.login);
         return user;
     },
 
