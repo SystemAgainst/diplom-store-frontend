@@ -1,7 +1,7 @@
 import {
     ILoginPayload,
     IRegisterPayload,
-    Role,
+    Role, ROLES,
 } from "./types";
 
 export interface IUser {
@@ -23,10 +23,20 @@ export const authApi = {
         });
 
         if (!res.ok) {
-            throw new Error("Неверный логин или пароль");
+            const message = await res.text();
+            throw new Error(message || "Неверный логин или пароль");
         }
 
-        const user: IUser = await res.json();
+        // const user: IUser = await res.json();
+
+        const user: IUser = {
+            id: Date.now().toString(),
+            login: payload.login,
+            loginTelegram: "",
+            chatId: "",
+            role: ROLES.SUPPLIER,
+        };
+
         localStorage.setItem("userId", user.id);
         return user;
     },
@@ -43,10 +53,21 @@ export const authApi = {
             throw new Error(message || "Ошибка регистрации");
         }
 
-        const newUser: IUser = await res.json();
-        localStorage.setItem("userId", newUser.id);
+        // const newUser: IUser = await res.json(); // временно убираем, т.к. сервер возвращает не JSON
+
+        const newUser: IUser = {
+            id: Date.now().toString(),
+            login: payload.login,
+            loginTelegram: payload.loginTelegram,
+            chatId: payload.chatId,
+            role: payload.role,
+        };
+
+        localStorage.setItem("login", newUser.login);
+
         return newUser;
     },
+
 
     async fetchUser(): Promise<IUser> {
         const userId = localStorage.getItem("userId");
