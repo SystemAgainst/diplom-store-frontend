@@ -12,9 +12,9 @@ export interface IRegisterPayload {
 }
 
 export const ROLES = {
-    ADMIN: "ADMIN",
-    SUPPLIER: "SUPPLIER",
-    SOLE_TRADER: "SOLE_TRADER",
+    ADMIN: "админ",
+    SUPPLIER: "поставщик",
+    SOLE_TRADER: "продавец",
 } as const;
 
 export type Role = typeof ROLES[keyof typeof ROLES];
