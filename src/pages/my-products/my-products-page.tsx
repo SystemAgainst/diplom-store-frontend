@@ -3,6 +3,7 @@ import styles from "./style.module.css";
 import { Link } from "react-router-dom";
 import { IUserProduct } from "@/features/auth/model/types";
 import {UiButton} from "@/shared/ui";
+import {ProductsHeader} from "@/features/products/ui";
 
 
 export const MyProductsPage = () => {
@@ -27,7 +28,7 @@ export const MyProductsPage = () => {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h2 className={styles.title}>Мои товары</h2>
+                <ProductsHeader>Мои товары</ProductsHeader>
                 <Link to="/products/create" className={styles.createButton}>
                     <UiButton style={{ width: '150px', marginBottom: '2rem' }}>
                         + Добавить товар
