@@ -5,6 +5,7 @@ import { LoginForm } from "@/features/auth/ui/login-form.tsx";
 import { RegisterForm } from "@/features/auth/ui/register-form.tsx";
 import { HomePage, MyProductsPage, OrderDetailPage, OrdersPage, ProfilePage } from "@/pages";
 
+
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -24,12 +25,15 @@ export const router = createBrowserRouter([
             {
                 path: "home",
                 element: <HomePage />,
+                children: [
+                    { index: true, element: <Navigate to="/home" replace /> },
+                    { path: "profile", element: <ProfilePage /> },
+                    { path: "products/my", element: <MyProductsPage /> },
+                    { path: "orders", element: <OrdersPage /> },
+                    { path: "orders/:id", element: <OrderDetailPage /> },
+                ],
             },
-            { path: "profile", element: <ProfilePage /> },
-            { path: "products/my", element: <MyProductsPage /> },
-            { path: "orders", element: <OrdersPage /> },
-            { path: "orders/:id", element: <OrderDetailPage /> },
-
         ],
     },
 ]);
+
