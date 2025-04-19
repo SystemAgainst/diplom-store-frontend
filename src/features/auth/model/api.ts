@@ -28,7 +28,6 @@ export const authApi = {
             throw new Error(message || "Неверный логин или пароль");
         }
 
-        console.log(':: ', res)
         const id = await res.text();
 
         const user: IUser = {
@@ -36,10 +35,12 @@ export const authApi = {
             login: payload.login,
             loginTelegram: "",
             chatId: "",
-            role: ROLES.SUPPLIER, // временно, пока сервер не отдает роль
+            role: ROLES.SUPPLIER, // временно
         };
 
         authStorage.setUserId(id);
+        localStorage.setItem("login", payload.login); // временно
+
         return user;
     },
 
@@ -57,7 +58,7 @@ export const authApi = {
 
         const id = await res.text();
 
-        const newUser: IUser = {
+        const user: IUser = {
             id,
             login: payload.login,
             loginTelegram: payload.loginTelegram,
@@ -66,22 +67,39 @@ export const authApi = {
         };
 
         authStorage.setUserId(id);
-        return newUser;
+        localStorage.setItem("login", payload.login); // временно
+
+        return user;
     },
 
     async fetchUser(): Promise<IUser> {
         const userId = authStorage.getUserId();
-        if (!userId) throw new Error("Не авторизован");
+        const login = localStorage.getItem("login");
 
-        const res = await fetch(`${API_URL}/user/${userId}`);
-        if (!res.ok) throw new Error("Пользователь не найден");
+        if (!userId || !login) {
+            throw new Error("Не авторизован");
+        }
 
-        console.log('fetschUser - res: ', res);
-        return res.json(); // здесь возвращается полноценный JSON с login, role и т.д.
+        const authHeader = "Basic " + btoa(`${login}`);
+
+        const res = await fetch(`${API_URL}/user/${userId}`, {
+            headers: {
+                Authorization: authHeader,
+            },
+        });
+
+        if (!res.ok) {
+            throw new Error("Пользователь не найден");
+        }
+
+        const user: IUser = await res.json();
+        return user;
     },
 
     logout() {
         authStorage.clear();
+        localStorage.removeItem("login");
+        localStorage.removeItem("password");
         window.location.href = "/login";
     },
 };

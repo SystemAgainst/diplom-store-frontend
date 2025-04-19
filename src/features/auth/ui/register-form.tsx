@@ -2,9 +2,10 @@ import { useState } from "react";
 import styles from "./style.module.css";
 import { Link } from "react-router-dom";
 import { routes } from "@/shared/config/routes";
-import { Role, ROLES } from "@/features/auth/model/types";
+import { Role, ROLE_LABELS, ROLES } from "@/features/auth/model/types";
 import { authApi } from "../model/api";
-import {useUserStore} from "@/features/user/model/user-store.ts";
+import { useUserStore } from "@/features/user/model/user-store.ts";
+import { UiButton } from "@/shared/ui";
 
 
 interface RegisterFormData {
@@ -96,6 +97,7 @@ export const RegisterForm = () => {
               type="password"
               id="password"
               value={formData.password}
+              autoComplete="current-password"
               onChange={(e) =>
                   setFormData({...formData, password: e.target.value})
               }
@@ -108,33 +110,32 @@ export const RegisterForm = () => {
           <label htmlFor="role" className={styles.label}>
             Роль
           </label>
-          <select
-              id="role"
-              value={formData.role || ""}
-              onChange={(e) =>
-                  setFormData({...formData, role: e.target.value as Role})
-              }
-              className={styles.inputGroup}
-              required
-          >
-            <option value="" disabled>
-              -- Выберите роль --
-            </option>
-            {Object.entries(ROLES).map(([key, value]) => (
-                <option key={key} value={value}>
-                  {value}
+            <select
+                id="role"
+                value={formData.role || ""}
+                onChange={(e) =>
+                    setFormData({ ...formData, role: e.target.value as Role })
+                }
+                className={styles.inputGroup}
+                required
+            >
+                <option value="" disabled>
+                    -- Выберите роль --
                 </option>
-            ))}
-          </select>
+                {Object.keys(ROLES).map((roleKey) => (
+                    <option key={roleKey} value={roleKey}>
+                        {ROLE_LABELS[roleKey as Role]}
+                    </option>
+                ))}
+            </select>
+
         </div>
 
         {error && <div className={styles.error}>{error}</div>}
 
-        <button type="submit" className={styles.button}>
-          Зарегистрироваться
-        </button>
+          <UiButton type="submit">Зарегистрироваться</UiButton>
 
-        <span>У вас уже есть аккаунт?{" "}
+          <span>У вас уже есть аккаунт?{" "}
           <Link to={routes.login}>Войдите</Link> в систему
         </span>
       </form>

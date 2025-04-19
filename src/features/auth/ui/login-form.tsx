@@ -43,6 +43,7 @@ export const LoginForm = () => {
         <input
           type="text"
           id="login"
+          autoComplete="current-password"
           value={formData.login}
           onChange={(e) => setFormData({ ...formData, login: e.target.value })}
           className={styles.inputGroup}

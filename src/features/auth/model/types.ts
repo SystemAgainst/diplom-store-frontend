@@ -12,12 +12,18 @@ export interface IRegisterPayload {
 }
 
 export const ROLES = {
+    ADMIN: "ADMIN",
+    SUPPLIER: "SUPPLIER",
+    SOLE_TRADER: "SOLE_TRADER",
+} as const;
+
+export type Role = keyof typeof ROLES;
+
+export const ROLE_LABELS: Record<Role, string> = {
     ADMIN: "админ",
     SUPPLIER: "поставщик",
     SOLE_TRADER: "продавец",
-} as const;
-
-export type Role = typeof ROLES[keyof typeof ROLES];
+};
 
 export interface IUserProduct {
     id: number;
