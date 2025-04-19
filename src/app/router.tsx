@@ -4,6 +4,7 @@ import { FormLayout } from "@/widgets/form-layout/form-layout";
 import { LoginForm } from "@/features/auth/ui/login-form.tsx";
 import { RegisterForm } from "@/features/auth/ui/register-form.tsx";
 import { HomePage, MyProductsPage, OrderDetailPage, OrdersPage, ProfilePage } from "@/pages";
+import {CreateProductPage} from "@/pages/create-product/create-product-page.tsx";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
 
             { path: "profile", element: <ProfilePage /> },
             { path: "products/my", element: <MyProductsPage /> },
+            { path: "products/create", element: <CreateProductPage /> },
             { path: "orders", element: <OrdersPage /> },
             { path: "orders/:id", element: <OrderDetailPage /> },
         ],

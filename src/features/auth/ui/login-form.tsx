@@ -18,8 +18,8 @@ export const LoginForm = () => {
   const setUser = useUserStore((s) => s.setUser);
 
   const [formData, setFormData] = useState<LoginFormData>({
-    login: "",
-    password: "",
+    login: "supplier_one",
+    password: "Password123!",
   });
   const [error, setError] = useState<string>("");
 
