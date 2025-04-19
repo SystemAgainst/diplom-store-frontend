@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "./style.module.css";
 import { UiButton } from "@/shared/ui";
+import { getAuthHeader } from "@/features/auth/model/api";
+import styles from "./style.module.css";
+
 
 export const CreateProductPage = () => {
     const navigate = useNavigate();
@@ -13,7 +15,6 @@ export const CreateProductPage = () => {
         sellingPrice: 0,
         images: [] as File[],
     });
-
 
     const [error, setError] = useState<string>("");
 
@@ -52,16 +53,11 @@ export const CreateProductPage = () => {
                 });
             }
 
-            const login = localStorage.getItem("login");
-            const password = localStorage.getItem("password");
-
-            const authHeader = "Basic " + btoa(`${login}:${password}`);
-
             const response = await fetch("http://localhost:8080/product/create", {
                 method: "POST",
                 body: data,
                 headers: {
-                    Authorization: authHeader,
+                    Authorization: getAuthHeader(),
                 }
             });
 

@@ -15,6 +15,14 @@ export interface IUser {
     role: Role;
 }
 
+// Утилита: получение заголовка авторизации (Basic)
+export const getAuthHeader = () => {
+    const login = localStorage.getItem("login");
+    const password = localStorage.getItem("password");
+    if (!login || !password) throw new Error("Не авторизован");
+    return "Basic " + btoa(`${login}:${password}`);
+};
+
 export const authApi = {
     async login(payload: ILoginPayload): Promise<IUser> {
         const res = await fetch(`${API_URL}/login`, {
@@ -39,6 +47,8 @@ export const authApi = {
         };
 
         authStorage.setUserId(id);
+        localStorage.setItem("login", payload.login); // нужно для auth
+        localStorage.setItem("password", payload.password); // пока нужно для Basic Auth
 
         return user;
     },
@@ -66,23 +76,19 @@ export const authApi = {
         };
 
         authStorage.setUserId(id);
+        localStorage.setItem("login", payload.login);
+        localStorage.setItem("password", payload.password); // временно
 
         return user;
     },
 
     async fetchUser(): Promise<IUser> {
         const userId = authStorage.getUserId();
-        const login = localStorage.getItem("login");
-
-        if (!userId || !login) {
-            throw new Error("Не авторизован");
-        }
-
-        const authHeader = "Basic " + btoa(`${login}`);
+        if (!userId) throw new Error("Не авторизован");
 
         const res = await fetch(`${API_URL}/user/${userId}`, {
             headers: {
-                Authorization: authHeader,
+                Authorization: getAuthHeader(),
             },
         });
 
@@ -96,6 +102,8 @@ export const authApi = {
 
     logout() {
         authStorage.clear();
+        localStorage.removeItem("login");
+        localStorage.removeItem("password");
         window.location.href = "/login";
     },
 };
