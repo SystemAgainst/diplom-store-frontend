@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import styles from "./style.module.css";
 import { Link } from "react-router-dom";
 import { IUserProduct } from "@/features/auth/model/types";
-import {UiButton} from "@/shared/ui";
-import {ProductsHeader} from "@/features/products/ui";
+import { UiButton } from "@/shared/ui";
+import { ProductsHeader } from "@/features/products/ui";
 
 
 export const MyProductsPage = () => {
@@ -12,7 +12,7 @@ export const MyProductsPage = () => {
     const [error, setError] = useState<string>("");
 
     useEffect(() => {
-        fetch("http://localhost:8080/supplier/my/products")
+        fetch("http://localhost:8080/product")
             .then((res) => {
                 if (!res.ok) throw new Error("Ошибка при загрузке товаров");
                 return res.json();
