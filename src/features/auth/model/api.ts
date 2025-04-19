@@ -39,7 +39,6 @@ export const authApi = {
         };
 
         authStorage.setUserId(id);
-        localStorage.setItem("login", payload.login); // временно
 
         return user;
     },
@@ -67,7 +66,6 @@ export const authApi = {
         };
 
         authStorage.setUserId(id);
-        localStorage.setItem("login", payload.login); // временно
 
         return user;
     },
@@ -98,8 +96,6 @@ export const authApi = {
 
     logout() {
         authStorage.clear();
-        localStorage.removeItem("login");
-        localStorage.removeItem("password");
         window.location.href = "/login";
     },
 };
