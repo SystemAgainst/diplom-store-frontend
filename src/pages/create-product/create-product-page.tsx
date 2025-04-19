@@ -11,31 +11,62 @@ export const CreateProductPage = () => {
         quantity: 0,
         price: 0,
         sellingPrice: 0,
+        images: [] as File[],
     });
+
 
     const [error, setError] = useState<string>("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({
-            ...prev,
-            [name]: name === "title" ? value : Number(value),
-        }));
+        const { name, value, files } = e.target;
+        if (name === "images" && files) {
+            setForm(prev => ({ ...prev, images: Array.from(files) }));
+        } else {
+            setForm(prev => ({
+                ...prev,
+                [name]: name === "title" ? value : Number(value),
+            }));
+        }
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await fetch("http://localhost:8080/supplier/products", {
+            const data = new FormData();
+
+            data.append("title", form.title);
+            data.append("quantity", String(form.quantity));
+            data.append("price", String(form.price));
+            data.append("sellingPrice", String(form.sellingPrice));
+
+            if (form.images.length === 0) {
+                // Добавляем заглушку, если пользователь не загрузил изображение
+                const res = await fetch("/vite.svg");
+                const blob = await res.blob();
+                const placeholderFile = new File([blob], "vite.svg", { type: blob.type });
+                data.append("images", placeholderFile);
+            } else {
+                // Добавляем все изображения из формы
+                form.images.forEach((file) => {
+                    data.append("images", file);
+                });
+            }
+
+            const login = localStorage.getItem("login");
+            const password = localStorage.getItem("password");
+
+            const authHeader = "Basic " + btoa(`${login}:${password}`);
+
+            const response = await fetch("http://localhost:8080/product/create", {
                 method: "POST",
+                body: data,
                 headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(form),
+                    Authorization: authHeader,
+                }
             });
 
-            if (!res.ok) {
-                const text = await res.text();
+            if (!response.ok) {
+                const text = await response.text();
                 throw new Error(text || "Ошибка при создании товара");
             }
 
@@ -95,6 +126,18 @@ export const CreateProductPage = () => {
                         onChange={handleChange}
                         className={styles.input}
                         required
+                    />
+                </div>
+
+                <div className={styles.fileInputWrapper}>
+                    <label className={styles.fileLabel}>Фото</label>
+                    <input
+                        type="file"
+                        name="images"
+                        multiple
+                        accept="image/*"
+                        onChange={handleChange}
+                        className={styles.fileInput}
                     />
                 </div>
 
