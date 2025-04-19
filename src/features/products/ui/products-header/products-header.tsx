@@ -1,13 +1,21 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./style.module.css";
 import { ReactNode } from "react";
+import clsx from "clsx";
 
-export const ProductsHeader = ({ children }: { children: ReactNode }) => {
+interface Props {
+    children: ReactNode;
+    className?: string;
+}
+
+export const ProductsHeader = ({ children, className }: Props) => {
+    const navigate = useNavigate();
+
     return (
-        <div className={styles.header}>
-            <Link to="/home" className={styles.backArrow}>
+        <div className={clsx(styles.header, className)}>
+            <button type="button" onClick={() => navigate(-1)} className={styles.backArrow}>
                 ←
-            </Link>
+            </button>
             <h2 className={styles.title}>{children}</h2>
         </div>
     );

@@ -6,10 +6,13 @@
 }
 
 .backArrow {
+  border: none;
+  background: none;
   font-size: 24px;
   text-decoration: none;
   color: #2563eb;
   transition: color 0.2s ease;
+  cursor: pointer;
 }
 
 .backArrow:hover {

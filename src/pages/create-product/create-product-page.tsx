@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UiButton } from "@/shared/ui";
 import { getAuthHeader } from "@/features/auth/model/api";
 import styles from "./style.module.css";
+import { ProductsHeader } from "@/features/products/ui";
 
 
 export const CreateProductPage = () => {
@@ -74,7 +75,7 @@ export const CreateProductPage = () => {
 
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Создание товара</h1>
+            <ProductsHeader className={styles.title}>Создание товара</ProductsHeader>
 
             <form onSubmit={handleSubmit} className={styles.form}>
                 <div className={styles.formGroup}>
