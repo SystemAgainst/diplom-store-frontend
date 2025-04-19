@@ -8,6 +8,9 @@ export const useInitUser = () => {
     useEffect(() => {
         authApi.fetchUser()
             .then(setUser)
-            .catch(() => setUser(null));
-    }, []);
+            .catch((e) => {
+                console.warn("User init failed:", e.message);
+                setUser(null);
+            });
+        }, []);
 };

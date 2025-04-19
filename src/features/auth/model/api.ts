@@ -41,14 +41,15 @@ export const authApi = {
         const user: IUser = {
             id,
             login: payload.login,
-            loginTelegram: "",
+            loginTelegram: "", // пока неизвестно
             chatId: "",
-            role: ROLES.SUPPLIER, // временно
+            role: ROLES.SUPPLIER, // временно, уточняется при fetchUser()
         };
 
-        authStorage.setUserId(id);
-        localStorage.setItem("login", payload.login); // нужно для auth
-        localStorage.setItem("password", payload.password); // пока нужно для Basic Auth
+        // Сохраняем и user, и auth-данные
+        authStorage.setUser(user);
+        localStorage.setItem("login", payload.login);
+        localStorage.setItem("password", payload.password);
 
         return user;
     },
@@ -75,9 +76,9 @@ export const authApi = {
             role: payload.role,
         };
 
-        authStorage.setUserId(id);
+        authStorage.setUser(user);
         localStorage.setItem("login", payload.login);
-        localStorage.setItem("password", payload.password); // временно
+        localStorage.setItem("password", payload.password);
 
         return user;
     },
@@ -97,6 +98,7 @@ export const authApi = {
         }
 
         const user: IUser = await res.json();
+        authStorage.setUser(user);
         return user;
     },
 
